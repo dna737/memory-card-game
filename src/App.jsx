@@ -82,6 +82,21 @@ function App() {
 
     return (
         <>
+            <div className="stats shadow overflow-hidden">
+                <div className="stat place-items-center">
+                    <div className="underline text-lg">Current Score</div>
+                    <div className="text-secondary stat-value">{score}</div>
+                </div>
+
+                <div className="stat place-items-center">
+                    <div className="stat place-items-center">
+                        <div className="underline text-lg">Highscore</div>
+                        <div className="text-secondary stat-value">
+                            {highScore}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="grid grid-cols-5 grid-rows-2 gap-3">
                 {console.log("images", images)}
                 {images.map((image) => (
