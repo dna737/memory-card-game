@@ -4,7 +4,7 @@ import _ from "lodash";
 import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import { useImmer } from "use-immer";
-import { AboutGame } from "./components/AboutGame";
+import { AboutTheGame } from "./components/AboutTheGame";
 import { HiddenButton } from "./components/HiddenButton";
 import { DisplayScores } from "./components/DisplayScores";
 import { DisplayImages } from "./components/DisplayImages";
@@ -100,7 +100,7 @@ function App() {
             <HiddenButton ref={resetButton} />
             <DisplayScores score={score} highScore={highScore} />
             <DisplayImages images={images} handleClick={handleClick} />
-            <AboutGame />
+            <AboutTheGame />
         </>
     );
 }

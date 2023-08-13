@@ -1,4 +1,4 @@
-export function AboutGame() {
+export function AboutTheGame() {
     return (
         <>
             <button
