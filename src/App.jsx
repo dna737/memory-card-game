@@ -41,35 +41,17 @@ function App() {
     }, []);
 
     return (
-        <div>
+        <div className="grid grid-cols-5 grid-rows-2 gap-3">
             {images &&
                 images.map((image) => (
-                    <img src={image.url} key={image.id}></img>
+                    <img
+                        src={image.url}
+                        key={image.id}
+                        className=" w-[225px] h-[225px]"
+                    ></img>
                 ))}
         </div>
     );
-    //     <>
-    //         {console.log("images:", images)}
-    //         {orderOfIds &&
-    //             orderOfIds.forEach((order) => {
-    //                 let imageObject = images.filter(
-    //                     (image) => image.id === orderOfIds
-    //                 );
-    //                 console.log("imageObject:", imageObject[0].url);
-    //                 return <div>{imageObject[0].url}</div>;
-    //             })}
-
-    //         <div>
-    //             {orderOfIds &&
-    //                 orderOfIds.forEach((order) => {
-    //                     let url = images.find(
-    //                         (image) => image.id === orderOfIds
-    //                     ).url;
-    //                     return url && <img src={url}></img>;
-    //                 })}
-    //         </div>
-    //     </>
-    // );
 }
 
 export default App;
