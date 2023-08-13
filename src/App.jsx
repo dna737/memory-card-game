@@ -16,7 +16,7 @@ function App() {
     const [highScore, setHighScore] = useState(0);
     const resetButton = useRef(null);
 
-    if (highScore === 1) {
+    if (highScore === 10) {
         restartGame();
         setTimeout(() => {
             location.reload();
