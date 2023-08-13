@@ -14,8 +14,8 @@ export function AboutGame() {
                     </h3>
                     <ul>
                         <li key="1">
-                            Select all images to win! Reclick an image and you
-                            lose!
+                            Select all 10 images to win! Reclick an image and
+                            you lose!
                         </li>
                         <li key="2">
                             If you see less than 10 images, please refresh your
@@ -26,9 +26,9 @@ export function AboutGame() {
                             experience!
                         </li>
                     </ul>
-                </form>
-                <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
+                    <div className="modal-action">
+                        <button className="btn btn-primary">close</button>
+                    </div>
                 </form>
             </dialog>
         </>
