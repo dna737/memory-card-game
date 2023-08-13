@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-inner-declarations */
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import { useImmer } from "use-immer";
 
@@ -10,9 +10,18 @@ function App() {
     const [selectedImages, setSelectedImages] = useImmer([]);
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
+    const resetButton = useRef(null);
 
-    console.log("score:", score);
-    console.log("highScore:", highScore);
+    if (highScore === 10) {
+        restartGame();
+        setTimeout(() => {
+            location.reload();
+        }, 3000);
+    }
+
+    function restartGame() {
+        resetButton.current.click();
+    }
 
     function randomizeAndSetImages(jsonData) {
         let randomizedImages = _.shuffle(jsonData);
@@ -82,6 +91,24 @@ function App() {
 
     return (
         <>
+            <button
+                className="hidden btn"
+                onClick={() => window.hidden_restart_button.showModal()}
+                ref={resetButton}
+            ></button>
+            <dialog id="hidden_restart_button" className="modal">
+                <form method="dialog" className="modal-box">
+                    <h3 className="font-bold text-lg">Congratulations!</h3>
+                    <p className="py-4">
+                        You beat the game! Buckle up, we&apos;re restarting the
+                        game for you...
+                    </p>
+                </form>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
+
             <div className="stats shadow overflow-hidden">
                 <div className="stat place-items-center">
                     <div className="underline text-lg">Current Score</div>
@@ -97,6 +124,7 @@ function App() {
                     </div>
                 </div>
             </div>
+
             <div className="grid grid-cols-5 grid-rows-2 gap-3">
                 {console.log("images", images)}
                 {images.map((image) => (
