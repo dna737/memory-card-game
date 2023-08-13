@@ -3,17 +3,39 @@
 import _ from "lodash";
 import { useEffect, useState } from "react";
 import "./App.css";
+import { useImmer } from "use-immer";
 
 function App() {
     const [images, setImages] = useState([]);
+    const [selectedImages, setSelectedImages] = useImmer([]);
+    const [score, setScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
+
+    console.log("score:", score);
+    console.log("highScore:", highScore);
 
     function randomizeAndSetImages(jsonData) {
         let randomizedImages = _.shuffle(jsonData);
         setImages(randomizedImages);
     }
 
-    function handleClick() {
+    //this method takes care of setting the states for: order of the images, current Score (and highest score, if possible).
+    function handleClick(image) {
         randomizeAndSetImages(images);
+        validateSelection(image.id);
+    }
+
+    function validateSelection(imageId) {
+        if (selectedImages.includes(imageId)) {
+            setScore(0);
+            setSelectedImages([]);
+        } else {
+            setScore(score + 1);
+            setHighScore(Math.max(score + 1, highScore));
+            setSelectedImages((images) => {
+                images.push(imageId);
+            });
+        }
     }
 
     function containsBlockableContent(jsonData) {
@@ -67,7 +89,7 @@ function App() {
                         src={image.url}
                         key={image.id}
                         className=" w-[225px] h-[225px]"
-                        onClick={() => handleClick()}
+                        onClick={() => handleClick(image)}
                     ></img>
                 ))}
             </div>
@@ -88,11 +110,11 @@ function App() {
                             Select all images to win! Reclick an image and you
                             lose!
                         </li>
-                        <li>
+                        <li key="2">
                             If you see less than 10 images, please refresh your
                             browser.
                         </li>
-                        <li>
+                        <li key="3">
                             Additionally, turn off your AdBlocker for a smoother
                             experience!
                         </li>
