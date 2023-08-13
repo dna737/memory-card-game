@@ -1,16 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-inner-declarations */
 import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-    // const [url, setUrl] = useState("");
-    const [order, setOrder] = useState("");
-    console.log("order:", order);
+    const [images, setImages] = useState([]);
+
+    function changeOrder(jsonData) {
+        let randomlyArrangedJsonData = jsonData.sort(() => Math.random() - 0.5);
+        return randomlyArrangedJsonData;
+    }
 
     useEffect(() => {
         let ignore = false;
 
-        async function something() {
+        async function fetchImages() {
             if (!ignore) {
                 console.log("rendering:");
                 try {
@@ -18,17 +22,10 @@ function App() {
                         "https://api.thecatapi.com/v1/images/search/?limit=10"
                     );
                     const jsonData = await json.json();
-                    console.log("returned value:", jsonData);
-                    //TODO: go through the array of objects, set the id (they have an `ID` attribute).
-                    //After that,
-                    let arr = [];
-                    for (const object of jsonData) {
-                        arr.push(object.id);
-                        console.log("object:", object);
-                    }
 
-                    //call the randomize button here.
-                    setOrder(randomizeOrder(arr));
+                    //NOTE: set the images after randomizing the order.
+                    let newlyArrangedData = changeOrder(jsonData);
+                    setImages(newlyArrangedData);
                     console.log("jsonData:", jsonData);
                 } catch (error) {
                     console.log("error:", error);
@@ -36,31 +33,7 @@ function App() {
             }
         }
 
-        something();
-
-        function randomizeOrder(imageIds) {
-            // console.log(
-            // "🚀 ~ file: App.jsx:46 ~ randomizeOrder ~ imageIds):",
-            // imageIds
-            // );
-            let order = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-            let newOrder = [];
-            while (newOrder.length !== order.length) {
-                let num = Math.floor(10 * Math.random());
-                if (!newOrder.includes(num)) {
-                    newOrder.push(num);
-                }
-            }
-
-            if (JSON.stringify(newOrder) === JSON.stringify(order)) {
-                return randomizeOrder();
-            }
-
-            return newOrder.map((x) => {
-                console.log("x:", x);
-                return imageIds[x];
-            });
-        }
+        fetchImages();
 
         return () => {
             ignore = true;
@@ -68,12 +41,35 @@ function App() {
     }, []);
 
     return (
-        <>
-            {/* {console.log("url:", url)} */}
-            {/* <img src={url}></img> */}
-            {/* <button className="button button-primary" onClick={} */}
-        </>
+        <div>
+            {images &&
+                images.map((image) => (
+                    <img src={image.url} key={image.id}></img>
+                ))}
+        </div>
     );
+    //     <>
+    //         {console.log("images:", images)}
+    //         {orderOfIds &&
+    //             orderOfIds.forEach((order) => {
+    //                 let imageObject = images.filter(
+    //                     (image) => image.id === orderOfIds
+    //                 );
+    //                 console.log("imageObject:", imageObject[0].url);
+    //                 return <div>{imageObject[0].url}</div>;
+    //             })}
+
+    //         <div>
+    //             {orderOfIds &&
+    //                 orderOfIds.forEach((order) => {
+    //                     let url = images.find(
+    //                         (image) => image.id === orderOfIds
+    //                     ).url;
+    //                     return url && <img src={url}></img>;
+    //                 })}
+    //         </div>
+    //     </>
+    // );
 }
 
 export default App;
