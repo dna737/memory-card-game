@@ -5,12 +5,12 @@ export function AboutTheGame() {
                 className="btn bottom-0"
                 onClick={() => window.my_modal_2.showModal()}
             >
-                ABOUT GAME
+                ABOUT THE GAME
             </button>
             <dialog id="my_modal_2" className="modal">
                 <form method="dialog" className="modal-box">
                     <h3 className="font-bold text-lg">
-                        Welcome to the Memory Card game!
+                        Wielcome to the Memory Card game!
                     </h3>
                     <ul>
                         <li key="1">
