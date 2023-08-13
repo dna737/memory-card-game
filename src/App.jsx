@@ -4,6 +4,10 @@ import _ from "lodash";
 import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import { useImmer } from "use-immer";
+import { AboutGame } from "./components/AboutGame";
+import { HiddenButton } from "./components/HiddenButton";
+import { DisplayScores } from "./components/DisplayScores";
+import { DisplayImages } from "./components/DisplayImages";
 
 function App() {
     const [images, setImages] = useState([]);
@@ -12,7 +16,7 @@ function App() {
     const [highScore, setHighScore] = useState(0);
     const resetButton = useRef(null);
 
-    if (highScore === 10) {
+    if (highScore === 1) {
         restartGame();
         setTimeout(() => {
             location.reload();
@@ -20,6 +24,8 @@ function App() {
     }
 
     function restartGame() {
+        console.error("called");
+        console.log("resetButton:", resetButton);
         resetButton.current.click();
     }
 
@@ -91,82 +97,10 @@ function App() {
 
     return (
         <>
-            <button
-                className="hidden btn"
-                onClick={() => window.hidden_restart_button.showModal()}
-                ref={resetButton}
-            ></button>
-            <dialog id="hidden_restart_button" className="modal">
-                <form method="dialog" className="modal-box">
-                    <h3 className="font-bold text-lg">Congratulations!</h3>
-                    <p className="py-4">
-                        You beat the game! Buckle up, we&apos;re restarting the
-                        game for you...
-                    </p>
-                </form>
-                <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                </form>
-            </dialog>
-
-            <div className="stats shadow overflow-hidden">
-                <div className="stat place-items-center">
-                    <div className="underline text-lg">Current Score</div>
-                    <div className="text-secondary stat-value">{score}</div>
-                </div>
-
-                <div className="stat place-items-center">
-                    <div className="stat place-items-center">
-                        <div className="underline text-lg">Highscore</div>
-                        <div className="text-secondary stat-value">
-                            {highScore}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-5 grid-rows-2 gap-3">
-                {console.log("images", images)}
-                {images.map((image) => (
-                    <img
-                        src={image.url}
-                        key={image.id}
-                        className=" w-[225px] h-[225px]"
-                        onClick={() => handleClick(image)}
-                    ></img>
-                ))}
-            </div>
-
-            <button
-                className="btn bottom-0"
-                onClick={() => window.my_modal_2.showModal()}
-            >
-                ABOUT GAME
-            </button>
-            <dialog id="my_modal_2" className="modal">
-                <form method="dialog" className="modal-box">
-                    <h3 className="font-bold text-lg">
-                        Welcome to the Memory Card game!
-                    </h3>
-                    <ul>
-                        <li key="1">
-                            Select all images to win! Reclick an image and you
-                            lose!
-                        </li>
-                        <li key="2">
-                            If you see less than 10 images, please refresh your
-                            browser.
-                        </li>
-                        <li key="3">
-                            Additionally, turn off your AdBlocker for a smoother
-                            experience!
-                        </li>
-                    </ul>
-                </form>
-                <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                </form>
-            </dialog>
+            <HiddenButton ref={resetButton} />
+            <DisplayScores score={score} highScore={highScore} />
+            <DisplayImages images={images} handleClick={handleClick} />
+            <AboutGame />
         </>
     );
 }
